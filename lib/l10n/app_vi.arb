@@ -3,5 +3,10 @@
     "welcome_subtitle": "Núi",
     "welcome_one_desc": "Leo núi cho ban một cảm giác tuyệt vời về sự tự do cùng với sự dẻo dai",
     "welcome_two_desc": "Trips",
-    "welcome_three_desc": "Trips"
+    "welcome_three_desc": "Trips",
+
+    "main_home_tab": "Nhà",
+    "main_bar_item_tab": "Vật phẩm",
+    "main_search_tab": "Tìm kiếm",
+    "main_my_page_tab": "Tôi"
 }

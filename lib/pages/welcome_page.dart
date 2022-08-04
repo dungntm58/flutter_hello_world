@@ -9,10 +9,10 @@ class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => WelcomeState();
+  State<StatefulWidget> createState() => _WelcomeState();
 }
 
-class WelcomeState extends State<WelcomePage> {
+class _WelcomeState extends State<WelcomePage> {
   List imageNames = [
     "welcome-one",
     "welcome-two",

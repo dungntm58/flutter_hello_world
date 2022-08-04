@@ -3,5 +3,10 @@
     "welcome_subtitle": "Mountains",
     "welcome_one_desc": "Mountain hikes give you an incredible sense of freedom along with endurance test",
     "welcome_two_desc": "Trips",
-    "welcome_three_desc": "Trips"
+    "welcome_three_desc": "Trips",
+
+    "main_home_tab": "Home",
+    "main_bar_item_tab": "Bar",
+    "main_search_tab": "Search",
+    "main_my_page_tab": "My"
 }
