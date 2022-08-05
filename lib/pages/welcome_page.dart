@@ -23,9 +23,10 @@ class _WelcomeState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView.builder(
-          itemCount: imageNames.length,
-          scrollDirection: Axis.vertical,
-          itemBuilder: buildPageViewItem),
+        itemCount: imageNames.length,
+        scrollDirection: Axis.vertical,
+        itemBuilder: buildPageViewItem,
+      ),
     );
   }
 
@@ -37,7 +38,8 @@ class _WelcomeState extends State<WelcomePage> {
       width: double.maxFinite,
       height: double.maxFinite,
       decoration: BoxDecoration(
-          image: DecorationImage(image: assetImage, fit: BoxFit.cover)),
+        image: DecorationImage(image: assetImage, fit: BoxFit.cover),
+      ),
       child: Container(
         margin: EdgeInsets.only(top: 150, left: 20, right: 20),
         child: Row(
@@ -47,15 +49,12 @@ class _WelcomeState extends State<WelcomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppLargeText(text: localizations.welcome_title),
-                AppText(
-                  text: localizations.welcome_subtitle,
-                  size: 30,
-                ),
+                AppText(text: localizations.welcome_subtitle, size: 30),
                 SizedBox(height: 20),
                 Container(
                   width: 250,
                   child: AppText(
-                    text: getLocalizationDesc(context, index),
+                    text: getLocalizationDesc(localizations, index),
                     color: AppColors.textColor2,
                     size: 14,
                   ),
@@ -77,8 +76,7 @@ class _WelcomeState extends State<WelcomePage> {
     return "img/$name.png";
   }
 
-  String getLocalizationDesc(BuildContext context, int index) {
-    final localizations = AppLocalizations.of(context)!;
+  String getLocalizationDesc(AppLocalizations localizations, int index) {
     switch (index) {
       case 0:
         return localizations.welcome_one_desc;
@@ -98,10 +96,11 @@ class _WelcomeState extends State<WelcomePage> {
       width: 8,
       height: isCurrent ? 25 : 8,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: isCurrent
-              ? AppColors.mainColor
-              : AppColors.mainColor.withOpacity(0.3)),
+        borderRadius: BorderRadius.circular(8),
+        color: isCurrent
+            ? AppColors.mainColor
+            : AppColors.mainColor.withOpacity(0.3),
+      ),
     );
   }
 }

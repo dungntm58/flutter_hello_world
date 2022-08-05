@@ -8,5 +8,18 @@
     "main_home_tab": "Nhà",
     "main_bar_item_tab": "Vật phẩm",
     "main_search_tab": "Tìm kiếm",
-    "main_my_page_tab": "Tôi"
+    "main_my_page_tab": "Tôi",
+
+    "home_discover": "Khám phá",
+    "home_tab_1": "Địa điểm",
+    "home_tab_2": "Cảm hứng",
+    "home_tab_3": "Cảm xúc",
+
+    "home_explore_more": "Khám phá thêm",
+    "home_see_all": "Tất cả",
+
+    "home_explore_kayaking": "Kayak",
+    "home_explore_snorkeling": "Lặn",
+    "home_explore_ballooning": "Khinh khí cầu",
+    "home_explore_hiking": "Leo núi"
 }

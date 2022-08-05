@@ -8,5 +8,18 @@
     "main_home_tab": "Home",
     "main_bar_item_tab": "Bar",
     "main_search_tab": "Search",
-    "main_my_page_tab": "My"
+    "main_my_page_tab": "My",
+
+    "home_discover": "Discover",
+    "home_tab_1": "Places",
+    "home_tab_2": "Inspiration",
+    "home_tab_3": "Emotions",
+
+    "home_explore_more": "Explore More",
+    "home_see_all": "See all",
+
+    "home_explore_kayaking": "Kayaking",
+    "home_explore_snorkeling": "Snorkling",
+    "home_explore_ballooning": "Ballooning",
+    "home_explore_hiking": "Hiking"
 }

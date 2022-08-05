@@ -3,6 +3,7 @@ import 'package:flutter_hello_world/pages/bar_item_page.dart';
 import 'package:flutter_hello_world/pages/home_page.dart';
 import 'package:flutter_hello_world/pages/my_page.dart';
 import 'package:flutter_hello_world/pages/search_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -15,23 +16,16 @@ class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 0;
-  late List<_TabItem> _tabItems;
 
   @override
   void initState() {
     super.initState();
-    _tabItems = [
-      _TabItem(icon: Icons.home, title: 'Home', page: HomePage()),
-      _TabItem(icon: Icons.bar_chart_sharp, title: 'Bar', page: BarItemPage()),
-      _TabItem(icon: Icons.search, title: 'Search', page: SearchPage()),
-      _TabItem(icon: Icons.person, title: 'My', page: MyPage()),
-    ];
-    _tabController = TabController(length: _tabItems.length, vsync: this);
-    _tabController.addListener(() {
-      setState(() {
-        _selectedIndex = _tabController.index;
+    _tabController = TabController(length: _PageType.values.length, vsync: this)
+      ..addListener(() {
+        setState(() {
+          _selectedIndex = _tabController.index;
+        });
       });
-    });
   }
 
   @override
@@ -42,23 +36,71 @@ class _MainPageState extends State<MainPage>
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.white,
-            type: BottomNavigationBarType.fixed,
-            onTap: (value) => _tabController.index = value,
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.black54,
-            unselectedItemColor: Colors.grey.withOpacity(0.5),
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            items: _tabItems
-                .map((item) => item.toBottomNavigationBarItem())
-                .toList()),
-        body: TabBarView(
-            controller: _tabController,
-            physics: NeverScrollableScrollPhysics(),
-            children: _tabItems.map((e) => e.page).toList()));
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        type: BottomNavigationBarType.fixed,
+        onTap: (value) => _tabController.index = value,
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.black54,
+        unselectedItemColor: Colors.grey.withOpacity(0.5),
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: _PageType.values
+            .map((item) => item.toBottomNavigationBarItem(localizations))
+            .toList(),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        physics: NeverScrollableScrollPhysics(),
+        children: _PageType.values.map((item) => item.toPage(context)).toList(),
+      ),
+    );
+  }
+}
+
+enum _PageType {
+  home,
+  bar,
+  search,
+  my,
+}
+
+extension _PageTypeExtension on _PageType {
+  BottomNavigationBarItem toBottomNavigationBarItem(
+          AppLocalizations localizations) =>
+      toTabItem(localizations)._toBottomNavigationBarItem();
+
+  _TabItem toTabItem(AppLocalizations localizations) {
+    switch (this) {
+      case _PageType.home:
+        return _TabItem(icon: Icons.home, title: localizations.main_home_tab);
+      case _PageType.bar:
+        return _TabItem(
+            icon: Icons.bar_chart_sharp,
+            title: localizations.main_bar_item_tab);
+      case _PageType.search:
+        return _TabItem(
+            icon: Icons.search, title: localizations.main_search_tab);
+      case _PageType.my:
+        return _TabItem(
+            icon: Icons.person, title: localizations.main_my_page_tab);
+    }
+  }
+
+  Widget toPage(BuildContext context) {
+    switch (this) {
+      case _PageType.home:
+        return HomePage();
+      case _PageType.bar:
+        return BarItemPage();
+      case _PageType.search:
+        return SearchPage();
+      case _PageType.my:
+        return MyPage();
+    }
   }
 }
 
@@ -66,11 +108,10 @@ class _MainPageState extends State<MainPage>
 class _TabItem {
   final String? title;
   final IconData icon;
-  final Widget page;
 
-  const _TabItem({this.title, required this.icon, required this.page});
+  const _TabItem({this.title, required this.icon});
 
-  BottomNavigationBarItem toBottomNavigationBarItem() {
+  BottomNavigationBarItem _toBottomNavigationBarItem() {
     return BottomNavigationBarItem(
       icon: Icon(icon),
       label: title,
