@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hello_world/pages/detail_page.dart';
 import 'package:flutter_hello_world/pages/main_page.dart';
 import 'package:flutter_hello_world/pages/welcome_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MainPage(),
+      home: DetailPage(),
     );
   }
 }

@@ -21,5 +21,10 @@
     "home_explore_kayaking": "Kayaking",
     "home_explore_snorkeling": "Snorkling",
     "home_explore_ballooning": "Ballooning",
-    "home_explore_hiking": "Hiking"
+    "home_explore_hiking": "Hiking",
+
+    "detail_people": "People",
+    "detail_number_of_people": "Number of people in your group",
+    "detail_description": "Description",
+    "detail_book_trip_now": "Book Trip Now"
 }

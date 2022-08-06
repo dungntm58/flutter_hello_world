@@ -21,5 +21,10 @@
     "home_explore_kayaking": "Kayak",
     "home_explore_snorkeling": "Lặn",
     "home_explore_ballooning": "Khinh khí cầu",
-    "home_explore_hiking": "Leo núi"
+    "home_explore_hiking": "Leo núi",
+
+    "detail_people": "Thành viên",
+    "detail_number_of_people": "Số thành viên trong nhóm bạn",
+    "detail_description": "Mô tả",
+    "detail_book_trip_now": "Đặt vé ngay"
 }
