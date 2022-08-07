@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hello_world/cubit/app_cubit.dart';
 import 'package:flutter_hello_world/misc/colors.dart';
 import 'package:flutter_hello_world/widgets/app_large_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,13 +27,13 @@ class _WelcomeState extends State<WelcomePage> {
       body: PageView.builder(
         itemCount: imageNames.length,
         scrollDirection: Axis.vertical,
-        itemBuilder: buildPageViewItem,
+        itemBuilder: _buildPageViewItem,
       ),
     );
   }
 
-  Widget buildPageViewItem(BuildContext context, int index) {
-    AssetImage assetImage = AssetImage(getAssetNamePath(imageNames[index]));
+  Widget _buildPageViewItem(BuildContext context, int index) {
+    AssetImage assetImage = AssetImage(_getAssetNamePath(imageNames[index]));
     final localizations = AppLocalizations.of(context)!;
 
     return Container(
@@ -54,7 +56,7 @@ class _WelcomeState extends State<WelcomePage> {
                 Container(
                   width: 250,
                   child: AppText(
-                    text: getLocalizationDesc(localizations, index),
+                    text: _getLocalizationDesc(localizations, index),
                     color: AppColors.textColor2,
                     size: 14,
                   ),
@@ -62,6 +64,7 @@ class _WelcomeState extends State<WelcomePage> {
                 SizedBox(height: 40),
                 ResponsiveButton(
                   width: 120,
+                  onTap: (() => BlocProvider.of<AppCubit>(context).getTrips()),
                 )
               ],
             ),
@@ -72,11 +75,11 @@ class _WelcomeState extends State<WelcomePage> {
     );
   }
 
-  String getAssetNamePath(String name) {
+  String _getAssetNamePath(String name) {
     return "img/$name.png";
   }
 
-  String getLocalizationDesc(AppLocalizations localizations, int index) {
+  String _getLocalizationDesc(AppLocalizations localizations, int index) {
     switch (index) {
       case 0:
         return localizations.welcome_one_desc;

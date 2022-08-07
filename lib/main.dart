@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hello_world/pages/detail_page.dart';
-import 'package:flutter_hello_world/pages/main_page.dart';
-import 'package:flutter_hello_world/pages/welcome_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hello_world/cubit/app_cubit.dart';
+import 'package:flutter_hello_world/cubit/app_cubit_logic.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_hello_world/services/data_services.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(
+      MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<DataServices>(
+            create: (context) => DataServices(),
+          ),
+        ],
+        child: BlocProvider<AppCubit>(
+          create: (context) => AppCubit(services: context.read<DataServices>()),
+          child: MyApp(),
+        ),
+      ),
+    );
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -33,7 +46,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: DetailPage(),
+      home: AppCubitLogicWidget(),
     );
   }
 }

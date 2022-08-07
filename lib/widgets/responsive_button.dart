@@ -16,7 +16,7 @@ class ResponsiveButton extends StatelessWidget {
     final isResponsive = title != null;
 
     return Flexible(
-      child: InkWell(
+      child: GestureDetector(
         onTap: onTap,
         child: Container(
           width: isResponsive ? double.maxFinite : width,
