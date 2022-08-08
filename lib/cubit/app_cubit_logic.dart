@@ -16,21 +16,30 @@ class AppCubitLogicWidget extends StatefulWidget {
 class _AppCubitLogicWidgetState extends State<AppCubitLogicWidget> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<AppCubit, CubitState>(
-        builder: (context, dynamic state) {
-          if (state is WelcomeState) {
-            return WelcomePage();
-          } else if (state is LoadingState) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state is LoadedState) {
-            return MainPage();
-          } else if (state is DetailState) {
-            return DetailPage();
-          } else {
-            return Container();
-          }
-        },
+    return ScaffoldMessenger(
+      child: Scaffold(
+        body: BlocConsumer<AppCubit, CubitState>(
+          listenWhen: (previous, current) => current is ErrorState,
+          listener: (context, dynamic state) {
+            if (state is ErrorState) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(state.error)));
+            }
+          },
+          builder: (context, dynamic state) {
+            if (state is WelcomeState) {
+              return WelcomePage();
+            } else if (state is LoadingState) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is LoadedState) {
+              return MainPage();
+            } else if (state is DetailState) {
+              return DetailPage();
+            } else {
+              return Container();
+            }
+          },
+        ),
       ),
     );
   }

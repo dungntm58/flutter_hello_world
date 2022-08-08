@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hello_world/cubit/app_cubit_state.dart';
 import 'package:flutter_hello_world/misc/colors.dart';
 import 'package:flutter_hello_world/widgets/app_large_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -110,13 +112,13 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildPlacesTab(BuildContext context) {
-    final images = <String>[
-      "mountain.jpeg",
-      "mountain.jpeg",
-      "mountain.jpeg",
-    ];
-
-    Widget buildItem(BuildContext _, int index) {
+    Widget buildItem(BuildContext _, String? imageURL) {
+      final image;
+      if (imageURL != null) {
+        image = NetworkImage(imageURL);
+      } else {
+        image = AssetImage("img/mountain.jpeg");
+      }
       return Container(
         margin: const EdgeInsets.only(top: 10),
         width: 200,
@@ -124,20 +126,26 @@ class _HomePageState extends State<HomePage>
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
-            image: AssetImage("img/${images[index]}"),
+            image: image,
             fit: BoxFit.cover,
           ),
         ),
       );
     }
 
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      itemBuilder: buildItem,
-      separatorBuilder: (_, __) => const SizedBox(width: 10),
-      scrollDirection: Axis.horizontal,
-      itemCount: images.length,
-    );
+    return BlocBuilder(builder: (context, dynamic state) {
+      if (state is LoadedState) {
+        final imageURLs = state.trips.map((e) => e.image).toList();
+        return ListView.separated(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          itemBuilder: (context, index) => buildItem(context, imageURLs[index]),
+          separatorBuilder: (_, __) => const SizedBox(width: 10),
+          scrollDirection: Axis.horizontal,
+          itemCount: imageURLs.length,
+        );
+      }
+      return Container();
+    });
   }
 
   Widget _buildExploreMore(AppLocalizations localizations) {
