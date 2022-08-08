@@ -40,8 +40,8 @@ class ErrorState extends CubitState {
 }
 
 class DetailState extends CubitState {
-  final int id;
-  DetailState(this.id);
+  final TripModel trip;
+  DetailState(this.trip);
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [trip];
 }

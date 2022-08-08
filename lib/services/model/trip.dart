@@ -34,4 +34,11 @@ class TripModel {
       location: json['location'] as String?,
     );
   }
+
+  String? get imagePath {
+    if (image == null) {
+      return null;
+    }
+    return 'http://mark.bslmeiyu.com/uploads/$image';
+  }
 }

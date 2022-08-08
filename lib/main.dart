@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hello_world/cubit/app_cubit.dart';
 import 'package:flutter_hello_world/cubit/app_cubit_logic.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_hello_world/cubit/app_cubit_state.dart';
 import 'package:flutter_hello_world/services/data_services.dart';
 
 void main() => runApp(
@@ -47,6 +48,31 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: AppCubitLogicWidget(),
+      builder: (context, child) {
+        return Stack(
+          children: [
+            child!,
+            BlocBuilder<AppCubit, CubitState>(
+                builder: (context, dynamic state) {
+              if (state is LoadingState) {
+                return Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    color: Colors.black.withOpacity(0.5),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                );
+              }
+              return SizedBox();
+            })
+          ],
+        );
+      },
     );
   }
 }

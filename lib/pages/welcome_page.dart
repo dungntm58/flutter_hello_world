@@ -23,12 +23,10 @@ class _WelcomeState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView.builder(
-        itemCount: imageNames.length,
-        scrollDirection: Axis.vertical,
-        itemBuilder: _buildPageViewItem,
-      ),
+    return PageView.builder(
+      itemCount: imageNames.length,
+      scrollDirection: Axis.vertical,
+      itemBuilder: _buildPageViewItem,
     );
   }
 

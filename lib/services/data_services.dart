@@ -3,7 +3,7 @@ import 'package:flutter_hello_world/services/model/trip.dart';
 import 'package:http/http.dart' as http;
 
 class DataServices {
-  String baseUrl = "https://mark.bslmeiyu.com/api";
+  String baseUrl = "http://mark.bslmeiyu.com/api";
 
   Future<List<TripModel>> getTrips() async {
     final api = "/getplaces";

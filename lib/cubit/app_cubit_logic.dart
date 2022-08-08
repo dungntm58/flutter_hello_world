@@ -34,7 +34,7 @@ class _AppCubitLogicWidgetState extends State<AppCubitLogicWidget> {
             } else if (state is LoadedState) {
               return MainPage();
             } else if (state is DetailState) {
-              return DetailPage();
+              return DetailPage(trip: state.trip);
             } else {
               return Container();
             }

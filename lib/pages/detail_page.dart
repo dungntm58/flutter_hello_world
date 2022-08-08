@@ -1,25 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_hello_world/cubit/app_cubit.dart';
 import 'package:flutter_hello_world/misc/colors.dart';
+import 'package:flutter_hello_world/services/model/trip.dart';
 import 'package:flutter_hello_world/widgets/app_large_text.dart';
 import 'package:flutter_hello_world/widgets/app_text.dart';
 import 'package:flutter_hello_world/widgets/responsive_button.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({Key? key}) : super(key: key);
+  final TripModel trip;
+
+  const DetailPage({Key? key, required this.trip}) : super(key: key);
 
   @override
-  State<DetailPage> createState() => _DetailPageState();
+  State<DetailPage> createState() => _DetailPageState(trip);
 }
 
 class _DetailPageState extends State<DetailPage> {
-  int _gottenStars = 3;
-  int _peopleCount = 1;
+  int _gottenStars;
+  int _peopleCount;
   bool _isFavourite = false;
+
+  final TripModel trip;
+
+  _DetailPageState(this.trip)
+      : _peopleCount = trip.selectedPeople,
+        _gottenStars = trip.stars,
+        super();
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final image;
+    final imagePath = trip.imagePath;
+    if (imagePath != null) {
+      image = NetworkImage(imagePath);
+    } else {
+      image = AssetImage("img/mountain.jpeg");
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -35,7 +54,7 @@ class _DetailPageState extends State<DetailPage> {
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("img/mountain.jpeg"),
+                    image: image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -49,7 +68,8 @@ class _DetailPageState extends State<DetailPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () =>
+                        BlocProvider.of<AppCubit>(context).goBackHome(),
                     icon: Icon(Icons.menu),
                     color: Colors.white,
                   ),
@@ -76,13 +96,15 @@ class _DetailPageState extends State<DetailPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        AppLargeText(
-                          text: "Yosemite",
-                          size: 28,
-                          color: Colors.black.withOpacity(0.8),
+                        Flexible(
+                          child: AppLargeText(
+                            text: trip.name ?? "",
+                            size: 28,
+                            color: Colors.black.withOpacity(0.8),
+                          ),
                         ),
                         AppLargeText(
-                          text: "\$ 250",
+                          text: "\$${trip.price}",
                           color: AppColors.mainColor,
                         ),
                       ],
@@ -93,7 +115,7 @@ class _DetailPageState extends State<DetailPage> {
                         Icon(Icons.location_on, color: AppColors.mainColor),
                         SizedBox(width: 5),
                         AppText(
-                          text: "USA, California",
+                          text: trip.location ?? "",
                           color: AppColors.textColor1,
                         ),
                       ],
@@ -104,7 +126,7 @@ class _DetailPageState extends State<DetailPage> {
                         _buildRatingBar(context),
                         SizedBox(width: 10),
                         AppText(
-                          text: "(4.5)",
+                          text: "(${trip.stars})",
                           color: AppColors.textColor2,
                         )
                       ],
@@ -131,8 +153,7 @@ class _DetailPageState extends State<DetailPage> {
                     SizedBox(height: 5),
                     SingleChildScrollView(
                       child: AppText(
-                        text:
-                            "Yosemite National Park is located in central Sierra Nevada, in the Mojave Desert of California. It is a great place to visit for hiking, camping, and other activities. The park is known for its giant redwood trees, and has many waterfalls and streams. The park is also known for its rock art, and has a lot of it.",
+                        text: trip.description ?? "",
                         color: AppColors.mainTextColor,
                         textHeight: 1.4,
                       ),
@@ -195,8 +216,6 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Widget _buildPepleCountSelection(BuildContext context) {
-    final peopleCount = 5;
-
     Widget buildOption(int index) {
       final isSelected = index + 1 == _peopleCount;
 
@@ -222,7 +241,7 @@ class _DetailPageState extends State<DetailPage> {
 
     return Wrap(
       spacing: 6,
-      children: List.generate(peopleCount, buildOption),
+      children: List.generate(trip.people, buildOption),
     );
   }
 

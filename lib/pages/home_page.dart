@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hello_world/cubit/app_cubit.dart';
 import 'package:flutter_hello_world/cubit/app_cubit_state.dart';
 import 'package:flutter_hello_world/misc/colors.dart';
+import 'package:flutter_hello_world/services/model/trip.dart';
 import 'package:flutter_hello_world/widgets/app_large_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hello_world/widgets/app_text.dart';
@@ -112,36 +114,40 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildPlacesTab(BuildContext context) {
-    Widget buildItem(BuildContext _, String? imageURL) {
+    Widget buildItem(BuildContext _, TripModel trip) {
       final image;
-      if (imageURL != null) {
-        image = NetworkImage(imageURL);
+      final imagePath = trip.imagePath;
+      if (imagePath != null) {
+        image = NetworkImage(imagePath);
       } else {
         image = AssetImage("img/mountain.jpeg");
       }
-      return Container(
-        margin: const EdgeInsets.only(top: 10),
-        width: 200,
-        height: 300,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          image: DecorationImage(
-            image: image,
-            fit: BoxFit.cover,
+      return GestureDetector(
+        onTap: () => BlocProvider.of<AppCubit>(context).goToDetail(trip),
+        child: Container(
+          margin: const EdgeInsets.only(top: 10),
+          width: 200,
+          height: 300,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            image: DecorationImage(
+              image: image,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       );
     }
 
-    return BlocBuilder(builder: (context, dynamic state) {
+    return BlocBuilder<AppCubit, CubitState>(builder: (context, dynamic state) {
       if (state is LoadedState) {
-        final imageURLs = state.trips.map((e) => e.image).toList();
         return ListView.separated(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          itemBuilder: (context, index) => buildItem(context, imageURLs[index]),
+          itemBuilder: (context, index) =>
+              buildItem(context, state.trips[index]),
           separatorBuilder: (_, __) => const SizedBox(width: 10),
           scrollDirection: Axis.horizontal,
-          itemCount: imageURLs.length,
+          itemCount: state.trips.length,
         );
       }
       return Container();
