@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hello_world/cubit/app_cubit.dart';
 import 'package:flutter_hello_world/cubit/app_cubit_state.dart';
 import 'package:flutter_hello_world/misc/colors.dart';
+import 'package:flutter_hello_world/navigation/routes.dart';
 import 'package:flutter_hello_world/services/model/trip.dart';
 import 'package:flutter_hello_world/widgets/app_large_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -115,15 +117,19 @@ class _HomePageState extends State<HomePage>
 
   Widget _buildPlacesTab(BuildContext context) {
     Widget buildItem(BuildContext _, TripModel trip) {
-      final image;
+      final ImageProvider image;
       final imagePath = trip.imagePath;
+      final placeholder = AssetImage("img/mountain.jpeg");
       if (imagePath != null) {
-        image = NetworkImage(imagePath);
+        image = CachedNetworkImageProvider(imagePath);
       } else {
-        image = AssetImage("img/mountain.jpeg");
+        image = placeholder;
       }
       return GestureDetector(
-        onTap: () => BlocProvider.of<AppCubit>(context).goToDetail(trip),
+        onTap: () => AppNavigator.push(
+          Path.detail,
+          [trip],
+        ),
         child: Container(
           margin: const EdgeInsets.only(top: 10),
           width: 200,

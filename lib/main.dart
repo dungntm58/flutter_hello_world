@@ -4,6 +4,7 @@ import 'package:flutter_hello_world/cubit/app_cubit.dart';
 import 'package:flutter_hello_world/cubit/app_cubit_logic.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hello_world/cubit/app_cubit_state.dart';
+import 'package:flutter_hello_world/navigation/routes.dart';
 import 'package:flutter_hello_world/services/data_services.dart';
 
 void main() => runApp(
@@ -29,6 +30,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
+      navigatorKey: AppNavigator.navigatorKey,
+      onGenerateRoute: AppNavigator.onGenerateRoute,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(

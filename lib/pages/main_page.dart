@@ -6,16 +6,23 @@ import 'package:flutter_hello_world/pages/search_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  final int _selectedTabIndex;
+
+  MainPage({Key? key, int selectedTabIndex = 0})
+      : this._selectedTabIndex = selectedTabIndex,
+        super(key: key);
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<MainPage> createState() => _MainPageState(_selectedTabIndex);
 }
 
 class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  int _selectedIndex = 0;
+  int _selectedTabIndex;
+
+  _MainPageState(int selectedTabIndex)
+      : this._selectedTabIndex = selectedTabIndex;
 
   @override
   void initState() {
@@ -23,7 +30,7 @@ class _MainPageState extends State<MainPage>
     _tabController = TabController(length: _PageType.values.length, vsync: this)
       ..addListener(() {
         setState(() {
-          _selectedIndex = _tabController.index;
+          _selectedTabIndex = _tabController.index;
         });
       });
   }
@@ -43,7 +50,7 @@ class _MainPageState extends State<MainPage>
         backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         onTap: (value) => _tabController.index = value,
-        currentIndex: _selectedIndex,
+        currentIndex: _selectedTabIndex,
         selectedItemColor: Colors.black54,
         unselectedItemColor: Colors.grey.withOpacity(0.5),
         showSelectedLabels: false,

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hello_world/cubit/app_cubit.dart';
 import 'package:flutter_hello_world/misc/colors.dart';
+import 'package:flutter_hello_world/navigation/routes.dart';
 import 'package:flutter_hello_world/services/model/trip.dart';
 import 'package:flutter_hello_world/widgets/app_large_text.dart';
 import 'package:flutter_hello_world/widgets/app_text.dart';
@@ -68,8 +69,7 @@ class _DetailPageState extends State<DetailPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    onPressed: () =>
-                        BlocProvider.of<AppCubit>(context).goBackHome(),
+                    onPressed: () => AppNavigator.pop(),
                     icon: Icon(Icons.menu),
                     color: Colors.white,
                   ),
